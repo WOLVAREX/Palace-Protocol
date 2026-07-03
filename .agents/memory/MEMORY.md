@@ -1,1 +1,0 @@
-- [Express trust proxy for Replit production](express-trust-proxy.md) — without `app.set("trust proxy", 1)`, express-session silently drops session cookies in production; all saves break.
