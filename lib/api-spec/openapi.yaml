@@ -1,0 +1,732 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Palace Protocol Academy API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+  - name: auth
+  - name: books
+  - name: sessions
+  - name: enrollments
+  - name: members
+  - name: site
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /books:
+    get:
+      operationId: listBooks
+      tags: [books]
+      responses:
+        "200":
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BookItem"
+    post:
+      operationId: createBook
+      tags: [books]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookItem"
+
+  /books/{id}:
+    patch:
+      operationId: updateBook
+      tags: [books]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    delete:
+      operationId: deleteBook
+      tags: [books]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /academy-sessions:
+    get:
+      operationId: listAcademySessions
+      tags: [sessions]
+      responses:
+        "200":
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AcademySessionItem"
+    post:
+      operationId: createAcademySession
+      tags: [sessions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AcademySessionInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcademySessionItem"
+
+  /academy-sessions/{id}:
+    patch:
+      operationId: updateAcademySession
+      tags: [sessions]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AcademySessionUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcademySessionItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    delete:
+      operationId: deleteAcademySession
+      tags: [sessions]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /enrollments:
+    get:
+      operationId: listEnrollments
+      tags: [enrollments]
+      responses:
+        "200":
+          description: List of enrollments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EnrollmentItem"
+    post:
+      operationId: createEnrollment
+      tags: [enrollments]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnrollmentInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnrollmentItem"
+
+  /enrollments/{id}:
+    patch:
+      operationId: updateEnrollment
+      tags: [enrollments]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnrollmentUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnrollmentItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /members:
+    get:
+      operationId: listMembers
+      tags: [members]
+      responses:
+        "200":
+          description: List of members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MemberItem"
+
+  /members/{id}:
+    patch:
+      operationId: updateMember
+      tags: [members]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemberUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemberItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /site/settings:
+    get:
+      operationId: getSiteSettings
+      tags: [site]
+      responses:
+        "200":
+          description: Site settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
+    patch:
+      operationId: updateSiteSettings
+      tags: [site]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SiteSettingsUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
+
+  /site/content:
+    get:
+      operationId: getSiteContent
+      tags: [site]
+      responses:
+        "200":
+          description: Site content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteContent"
+    patch:
+      operationId: updateSiteContent
+      tags: [site]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SiteContentUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteContent"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    ApiError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    MessageResponse:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+
+    LoginInput:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    AuthUser:
+      type: object
+      required: [id, username, name, role]
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+
+    BookItem:
+      type: object
+      required: [id, title, volume, price, description, coverPending]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        volume:
+          type: integer
+        price:
+          type: integer
+        description:
+          type: string
+        coverImage:
+          type: ["string", "null"]
+        coverPending:
+          type: boolean
+
+    BookInput:
+      type: object
+      required: [title, volume, price, description]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        volume:
+          type: integer
+          minimum: 1
+        price:
+          type: integer
+          minimum: 0
+        description:
+          type: string
+        coverImage:
+          type: ["string", "null"]
+        coverPending:
+          type: boolean
+
+    BookUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        volume:
+          type: integer
+        price:
+          type: integer
+        description:
+          type: string
+        coverImage:
+          type: ["string", "null"]
+        coverPending:
+          type: boolean
+
+    AcademySessionItem:
+      type: object
+      required: [id, title, date, time, location, description, capacity]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        date:
+          type: string
+        time:
+          type: string
+        location:
+          type: string
+        description:
+          type: string
+        capacity:
+          type: integer
+
+    AcademySessionInput:
+      type: object
+      required: [title, date, time, location, description, capacity]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        date:
+          type: string
+        time:
+          type: string
+        location:
+          type: string
+        description:
+          type: string
+        capacity:
+          type: integer
+
+    AcademySessionUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+        time:
+          type: string
+        location:
+          type: string
+        description:
+          type: string
+        capacity:
+          type: integer
+
+    EnrollmentItem:
+      type: object
+      required: [id, name, phone, message, status, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        phone:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+
+    EnrollmentInput:
+      type: object
+      required: [name, phone]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        phone:
+          type: string
+          minLength: 1
+        message:
+          type: string
+
+    EnrollmentUpdate:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    MemberItem:
+      type: object
+      required: [id, name, email, phone, status, joinedAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        status:
+          type: string
+        userId:
+          type: ["integer", "null"]
+        joinedAt:
+          type: string
+
+    MemberUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        status:
+          type: string
+
+    SiteSettings:
+      type: object
+      required: [whatsappNumber, email, location, sessionTimes, ceoName, ceoTitle]
+      properties:
+        whatsappNumber:
+          type: string
+        email:
+          type: string
+        location:
+          type: string
+        sessionTimes:
+          type: string
+        ceoName:
+          type: string
+        ceoTitle:
+          type: string
+
+    SiteSettingsUpdate:
+      type: object
+      properties:
+        whatsappNumber:
+          type: string
+        email:
+          type: string
+        location:
+          type: string
+        sessionTimes:
+          type: string
+        ceoName:
+          type: string
+        ceoTitle:
+          type: string
+
+    SiteContent:
+      type: object
+      required: [heroHeadline, heroSubheadline, aboutHeading, aboutBody1, aboutBody2]
+      properties:
+        heroHeadline:
+          type: string
+        heroSubheadline:
+          type: string
+        aboutHeading:
+          type: string
+        aboutBody1:
+          type: string
+        aboutBody2:
+          type: string
+        ceoPhoto:
+          type: ["string", "null"]
+        terms:
+          type: string
+        policies:
+          type: string
+        pillar1Numeral:
+          type: string
+        pillar1Title:
+          type: string
+        pillar1Description:
+          type: string
+        pillar2Numeral:
+          type: string
+        pillar2Title:
+          type: string
+        pillar2Description:
+          type: string
+        pillar3Numeral:
+          type: string
+        pillar3Title:
+          type: string
+        pillar3Description:
+          type: string
+
+    SiteContentUpdate:
+      type: object
+      properties:
+        heroHeadline:
+          type: string
+        heroSubheadline:
+          type: string
+        aboutHeading:
+          type: string
+        aboutBody1:
+          type: string
+        aboutBody2:
+          type: string
+        ceoPhoto:
+          type: ["string", "null"]
+        terms:
+          type: string
+        policies:
+          type: string
+        pillar1Numeral:
+          type: string
+        pillar1Title:
+          type: string
+        pillar1Description:
+          type: string
+        pillar2Numeral:
+          type: string
+        pillar2Title:
+          type: string
+        pillar2Description:
+          type: string
+        pillar3Numeral:
+          type: string
+        pillar3Title:
+          type: string
+        pillar3Description:
+          type: string
