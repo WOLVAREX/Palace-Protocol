@@ -1,0 +1,1 @@
+- [connect-pg-simple esbuild bundling](connect-pg-simple-esbuild.md) — bundling connect-pg-simple with esbuild breaks its table.sql lookup; must externalize it.
