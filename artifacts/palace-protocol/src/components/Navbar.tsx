@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
-import { SealLogo } from "./SealLogo";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
+import logo from "@assets/WhatsApp_Image_2026-07-06_at_08.25.23_1783335090917.jpeg";
 
 function SunIcon() {
   return (
@@ -43,7 +43,7 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 bg-ink border-b border-line">
       <div className="max-w-wrap flex items-center justify-between h-[76px]">
         <Link href="/" className="flex items-center gap-3">
-          <SealLogo size={38} color="brass" />
+          <img src={logo} alt="Palace Protocol" className="h-10 w-10 rounded-full object-cover" />
           <div className="text-bone font-serif text-[21px] font-semibold tracking-[0.3px] leading-tight">
             Palace Protocol
             <span className="block font-mono text-[9px] tracking-[2px] text-[#C9A860] font-medium mt-[2px]">

@@ -1,9 +1,9 @@
 import { Link } from "wouter";
-import { SealLogo } from "../components/SealLogo";
 import { PillarCard } from "../components/PillarCard";
 import { BookCard } from "../components/BookCard";
 import { useListBooks, useGetSiteSettings, useGetSiteContent } from "@workspace/api-client-react";
 import { motion } from "framer-motion";
+import logo from "@assets/WhatsApp_Image_2026-07-06_at_08.25.23_1783335090917.jpeg";
 
 export default function Home() {
   const { data: settings } = useGetSiteSettings();
@@ -46,7 +46,7 @@ export default function Home() {
           </div>
           <div className="order-1 md:order-2 flex justify-center md:justify-end items-center mb-6 md:mb-0">
             <motion.div initial={{ opacity: 0, scale: 1.6, rotate: -8 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}>
-              <SealLogo size={280} color="brass-light" showText />
+              <img src={logo} alt="Palace Protocol Academy" className="w-[280px] h-[280px] rounded-full object-cover border-2 border-[#A67C3D] shadow-2xl" />
             </motion.div>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function Home() {
                 {content?.ceoPhoto
                   ? <img src={content.ceoPhoto} alt={settings?.ceoName ?? ""} className="w-full h-full object-cover" />
                   : <>
-                      <SealLogo size={64} color="brass" className="opacity-50" />
+                      <img src={logo} alt="Palace Protocol" className="w-16 h-16 rounded-full object-cover opacity-50" />
                       <div className="absolute bottom-2.5 left-2.5 right-2.5 font-mono text-[10px] tracking-[1.5px] text-[#C9A860] uppercase text-center">Photo pending</div>
                     </>
                 }
