@@ -63,12 +63,12 @@ export default function AdminContent() {
         <h1 className="text-3xl font-serif text-foreground mb-2">Site Content</h1>
         <p className="text-muted-foreground">Edit all public-facing copy and photos.</p>
       </div>
-      <div className="flex border border-line overflow-hidden">
+      <div className="flex border border-line overflow-x-auto">
         {tabs.map(t => (
-          <button key={t.id} onClick={() => setActiveTab(t.id)} className={`flex-1 px-4 py-3 font-mono text-[11px] uppercase tracking-wider transition-colors ${activeTab === t.id ? "bg-ink text-[#C9A860]" : "bg-muted opacity-60 hover:opacity-100"}`}>{t.label}</button>
+          <button key={t.id} onClick={() => setActiveTab(t.id)} className={`flex-1 whitespace-nowrap px-4 py-3 font-mono text-[11px] uppercase tracking-wider transition-colors ${activeTab === t.id ? "bg-ink text-[#C9A860]" : "bg-muted opacity-60 hover:opacity-100"}`}>{t.label}</button>
         ))}
       </div>
-      <div className="bg-card border border-line p-8 space-y-6">
+      <div className="bg-card border border-line p-4 sm:p-8 space-y-6">
         {activeTab === "hero" && (
           <>
             <h3 className="font-serif text-xl border-b border-line pb-2">Hero Section</h3>
